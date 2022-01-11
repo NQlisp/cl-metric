@@ -3,6 +3,10 @@
 (defpackage cl-metric
   (:use :alexandria :common-lisp :parse-float :split-sequence)
   (:export
+   ;;activations
+   #:sigmoid
+   #:softmax
+   #:taylor-softmax
    ;; number
    #:range
    #:is-prime

@@ -7,6 +7,7 @@
   :components ((:module "src"
                 :components
                 ((:file "package")
+		 (:file "activations")
 		 (:file "disjoint-set")
 		 (:file "queue")
 		 (:file "graph")
