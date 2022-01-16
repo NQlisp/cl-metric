@@ -7,6 +7,7 @@
   :components ((:module "src"
                 :components
                 ((:file "package")
+		 (:file "string")
 		 (:file "activations")
 		 (:file "disjoint-set")
 		 (:file "queue")
@@ -24,6 +25,7 @@
   :components ((:module "tests"
                 :components
                 ((:file "package")
+		 (:file "string")		 
 		 (:file "disjoint-set")		 
 		 (:file "queue")
 		 (:file "graph")

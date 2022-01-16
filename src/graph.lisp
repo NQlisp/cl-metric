@@ -53,31 +53,28 @@
 
 ;; split-forest
 ;; input-format: '((i0 j0 v0) (i1 j1 v1) ... (in jn vn))
-(defun split-forest (edge-list)
-  (let ((forest (make-hash-table :test #'equal))
+(defun split-forest (edge-list node-num)
+  (let ((d-set (make-disjoint-set node-num))
+	(forest (make-hash-table :test #'equal))
 	(at-key (make-hash-table :test #'equal))
-	(key 0))
+	(key -1))
     (dolist (entry edge-list)
-      (let ((cur 0)
-	    (i (car entry))
+      (let ((i (car entry))
 	    (j (cadr entry)))
-	(setf cur (or (gethash i at-key) (gethash j at-key)))
-	(if (not cur)
-	    (progn
-	      (setf (gethash i at-key) key)
-	      (setf (gethash j at-key) key)
-	      (setf cur key)
-	      (incf key))
-	    (progn
-	      (setf (gethash i at-key) cur)
-	      (setf (gethash j at-key) cur)))
-	(push entry (gethash cur forest))))
+	(union-disjoint-set d-set i j)))
+
+    (dolist (entry edge-list)
+      (let ((at (find-disjoint-set d-set (car entry))))
+	(unless (gethash at at-key)
+	  (setf (gethash at at-key) (incf key)))
+	(push entry (gethash (gethash at at-key) forest))))    
+	
     (loop for v being each hash-value of forest
 	  append (list v))))
 
 ;; greedily bin a forest
-(defun bin-forest (edge-list &optional (bin-num 2))
-  (let ((forest (split-forest edge-list))
+(defun bin-forest (edge-list node-num &optional (bin-num 2))
+  (let ((forest (split-forest edge-list node-num))
 	(cur-bin 0)
 	(res (make-array bin-num :initial-element nil))
 	(scores (make-array bin-num)))

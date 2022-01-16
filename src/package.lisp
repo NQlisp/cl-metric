@@ -3,6 +3,8 @@
 (defpackage cl-metric
   (:use :alexandria :common-lisp :parse-float :split-sequence)
   (:export
+   ;;string
+   #:str-find
    ;;activations
    #:sigmoid
    #:softmax
